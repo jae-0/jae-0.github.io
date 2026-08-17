@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Template</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#101214;
+    --ink:#EDEEF0;
+    --muted:#8B929B;
+    --line:#2A2D31;
+    --card:#1A1D20;
+    --accent:#2DD4BF;
+    --accent-soft:#173330;
+    --accent2:#2DD4BF;
+    --accent2-soft:#173330;
+    --header-bg:rgba(16,18,20,0.85);
+    --selection-fg:#0F1113;
+  }
+  html[data-theme="light"]{
+    --bg:#FAFAF8;
+    --ink:#14171A;
+    --muted:#6B7280;
+    --line:#E4E4E1;
+    --card:#FFFFFF;
+    --accent:#0B6E63;
+    --accent-soft:#E4F1EF;
+    --accent2:#0B6E63;
+    --accent2-soft:#E4F1EF;
+    --header-bg:rgba(250,250,248,0.85);
+    --selection-fg:#FFFFFF;
+  }
+  html, body{transition:background-color .25s ease, color .25s ease;}
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth; scroll-snap-type:y proximity;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  a{color:inherit; text-decoration:none;}
+  ::selection{background:var(--accent); color:var(--selection-fg);}
+  a:focus-visible, button:focus-visible, [tabindex]:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:3px;
+  }
+  .wrap{max-width:920px; margin:0 auto; padding:0 28px;}
+
+  /* NAV */
+  header{
+    position:sticky; top:0; z-index:20;
+    background:var(--header-bg);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{display:flex; align-items:center; justify-content:space-between; padding:18px 0;}
+  .brand{font-family:'IBM Plex Mono', monospace; font-size:14px; font-weight:500; display:flex; align-items:center; gap:8px;}
+  .brand .dot{width:7px; height:7px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 3px var(--accent-soft);}
+  .navlinks{display:flex; align-items:center; gap:28px; font-size:13px; color:var(--muted);}
+  .navlinks a{transition:color .15s;}
+  .navlinks a:hover{color:var(--ink);}
+  .theme-toggle{
+    width:32px; height:32px; border-radius:50%;
+    border:1px solid var(--line); background:var(--card);
+    color:var(--ink); font-size:14px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:border-color .15s, transform .15s;
+  }
+  .theme-toggle:hover{border-color:var(--accent); transform:scale(1.06);}
+
+  /* HERO */
+  .hero{
+    padding:96px 0 72px; border-bottom:1px solid var(--line);
+    min-height:100vh; box-sizing:border-box;
+    display:flex; flex-direction:column; justify-content:center;
+    scroll-snap-align:start; scroll-snap-stop:always;
+  }
+  .hero-tag{font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--accent); display:flex; align-items:center; gap:10px; margin-bottom:22px;}
+  .hero-tag .caret{display:inline-block; width:8px; height:14px; background:var(--accent); animation:blink 1.1s steps(1) infinite;}
+  @keyframes blink{ 50%{opacity:0;} }
+  .hero h1{font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:clamp(34px, 5.5vw, 54px); line-height:1.12; letter-spacing:-0.01em; max-width:14ch;}
+  .hero h1 .line2{color:var(--muted); font-weight:500;}
+  .hero-desc{margin-top:22px; font-size:16px; color:var(--muted); max-width:52ch;}
+  .hero-grid{display:grid; grid-template-columns:1fr auto; align-items:center; gap:56px;}
+  .hero-photo{
+    width:168px; height:168px; border-radius:16px;
+    background:var(--card); border:1px solid var(--line);
+    overflow:hidden; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .hero-photo img{width:100%; height:100%; object-fit:cover; display:block;}
+  .hero-photo .placeholder{
+    font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--muted);
+    text-align:center; padding:0 16px; line-height:1.6;
+  }
+  @media (max-width:640px){
+    .hero-grid{grid-template-columns:1fr; gap:32px;}
+    .hero-photo{order:-1; width:96px; height:96px; border-radius:12px;}
+  }
+  .hero-meta{margin-top:36px; display:flex; flex-wrap:wrap; gap:10px;}
+  .pill{font-family:'IBM Plex Mono', monospace; font-size:12px; border:1px solid var(--line); border-radius:100px; padding:6px 14px; color:var(--muted); background:var(--card);}
+
+  /* stats */
+  .stats{display:grid; grid-template-columns:repeat(3, 1fr); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .stat{padding:26px 28px; border-right:1px solid var(--line);}
+  .stat:last-child{border-right:none;}
+  .stat .num{font-family:'Space Grotesk', sans-serif; font-size:28px; font-weight:600;}
+  .stat .label{font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--muted); margin-top:4px; text-transform:uppercase; letter-spacing:.04em;}
+
+  /* SECTION shared */
+  section{
+    padding:76px 0; min-height:100vh; box-sizing:border-box;
+    display:flex; flex-direction:column; justify-content:center;
+    scroll-snap-align:start; scroll-snap-stop:always;
+  }
+  section + section{border-top:1px solid var(--line);}
+  .sec-label{font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--accent); display:flex; align-items:center; gap:10px; margin-bottom:14px;}
+  .sec-label::before{content:"//";}
+  .sec-title{font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:26px; margin-bottom:40px;}
+
+  /* ABOUT */
+  .about-grid{display:grid; grid-template-columns:1.1fr 0.9fr; gap:48px;}
+  .about-text p{color:var(--muted); font-size:15px; margin-bottom:14px;}
+  .about-text p:last-child{margin-bottom:0;}
+  .about-text strong{color:var(--ink); font-weight:600;}
+  .stack-list{display:flex; flex-direction:column; gap:0;}
+  .stack-row{display:flex; justify-content:space-between; padding:11px 0; border-bottom:1px solid var(--line); font-size:13.5px;}
+  .stack-row:first-child{border-top:1px solid var(--line);}
+  .stack-row .k{font-family:'IBM Plex Mono', monospace; color:var(--muted);}
+  .stack-row .v{font-weight:500; text-align:right;}
+
+  /* HOVER (simple lift) */
+  .case-card, .pub{transition:transform .15s ease, background-color .15s ease;}
+  .case-card:hover{transform:translateY(-3px);}
+  .pub:hover{background-color:var(--card);}
+
+  /* PROJECT CARDS (feed) */
+  .case-list{display:flex; flex-direction:column;}
+  .case-card{display:block; padding:36px 0; border-top:1px solid var(--line); cursor:pointer;}
+  .case-list > .case-card:last-child{border-bottom:1px solid var(--line);}
+  .case-visual{
+    border-radius:14px; overflow:hidden; aspect-ratio:16/9;
+    margin-bottom:18px; position:relative;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .grad-1{background:linear-gradient(135deg,#CFE8FF 0%,#B8C4FF 55%,#CBB8FF 100%);}
+  .grad-2{background:linear-gradient(135deg,#FFD3EE 0%,#FF9ED2 55%,#B685FF 100%);}
+  .grad-3{background:linear-gradient(135deg,#FFDCB8 0%,#FF9E9E 55%,#FF7EB3 100%);}
+  .case-visual img{width:100%; height:100%; object-fit:cover; display:block;}
+  .case-visual-type{
+    font-family:'Space Grotesk', sans-serif; font-weight:700;
+    font-size:clamp(52px,11vw,110px); color:rgba(255,255,255,.55);
+    letter-spacing:-0.02em; user-select:none;
+  }
+  .case-card-foot{display:flex; justify-content:space-between; font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--muted); margin-bottom:10px;}
+  .case-title{font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:22px; margin-bottom:8px;}
+  .case-desc{color:var(--muted); font-size:14.5px; max-width:62ch;}
+  .case-card:focus-visible{outline-offset:6px;}
+
+  /* CASE VIEW (full page) */
+  .case-view{padding:64px 0 110px; display:none;}
+  .case-back{font-family:'IBM Plex Mono', monospace; font-size:13px; color:var(--muted); display:inline-flex; align-items:center; gap:6px; margin-bottom:36px; cursor:pointer; background:none; border:none;}
+  .case-back:hover{color:var(--ink);}
+  .case-eyebrow{font-family:'IBM Plex Mono', monospace; font-size:13px; color:var(--accent); margin-bottom:18px;}
+  .case-title-lg{font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:clamp(30px,4.5vw,44px); line-height:1.16; margin-bottom:20px; max-width:19ch;}
+  .case-desc-lg{color:var(--muted); font-size:16px; max-width:60ch; margin-bottom:40px;}
+  .case-hero-img{width:100%; border-radius:12px; border:1px solid var(--line); display:block; margin-bottom:48px;}
+  .case-meta-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:24px; padding:28px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-bottom:48px;}
+  .case-meta-label{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--accent); text-transform:uppercase; letter-spacing:.05em; margin-bottom:8px;}
+  .case-meta-val{font-size:14px; font-weight:500; line-height:1.5;}
+  .case-meta-val a{color:var(--accent);}
+  .case-meta-val a:hover{text-decoration:underline;}
+  .case-block{margin-bottom:48px;}
+  .case-block:last-child{margin-bottom:0;}
+  .case-block h2{
+    font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:22px;
+    color:var(--accent); margin-bottom:20px; padding-bottom:10px;
+    border-bottom:2px solid var(--accent); display:inline-block;
+    letter-spacing:-0.01em;
+  }
+  .case-block h2.h2-plain{border-bottom:none; padding-bottom:0; margin-bottom:8px;}
+  .case-block p{color:var(--ink); font-size:15px; line-height:1.75; margin-bottom:14px;}
+  .case-block p:last-child{margin-bottom:0;}
+  .case-block ul{padding-left:20px;}
+  .case-block li{color:var(--ink); font-size:15px; line-height:1.7; margin-bottom:8px;}
+  .hl{font-weight:800;}
+  .req-hover{position:relative; display:inline-block;}
+  .req-preview{
+    position:absolute; bottom:calc(100% + 10px); left:50%;
+    transform:translateX(-50%) translateY(6px);
+    width:min(880px, 92vw); background:var(--card); border:1px solid var(--line);
+    border-radius:10px; padding:8px; box-shadow:0 20px 50px rgba(0,0,0,.5);
+    opacity:0; pointer-events:none; transition:opacity .18s ease, transform .18s ease;
+    z-index:30;
+  }
+  .req-hover:hover .req-preview, .req-hover:focus-within .req-preview{
+    opacity:1; transform:translateX(-50%) translateY(0); pointer-events:auto;
+  }
+  .req-preview img{width:100%; border-radius:6px; display:block;}
+  .req-preview-sm{width:min(240px, 60vw) !important;}
+  .req-preview-md{width:min(340px, 75vw) !important;}
+  .case-quote{border-left:3px solid var(--accent); background:var(--accent-soft); padding:18px 22px; font-size:14.5px; color:var(--ink); border-radius:0 8px 8px 0; margin:22px 0;}
+  .case-approach-item{padding-top:24px; border-top:1px solid var(--line);}
+  .case-approach-item:first-of-type{padding-top:0; border-top:none;}
+  .case-approach-item:not(:first-of-type){margin-top:24px;}
+  .case-approach-item h3{
+    font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:16.5px;
+    color:var(--accent2); margin-bottom:10px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .case-approach-item h3 .step-badge{
+    font-family:'IBM Plex Mono', monospace; font-size:11px; font-weight:600;
+    width:22px; height:22px; border-radius:50%;
+    background:var(--accent2-soft); color:var(--accent2);
+    display:inline-flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .case-approach-item img{width:80%; border-radius:10px; border:1px solid var(--line); margin:14px auto 0; display:block;}
+  .approach-img-row{display:flex; gap:16px; margin-top:14px;}
+  .approach-img-row img{flex:1; width:auto; height:220px; object-fit:cover; border-radius:10px; border:1px solid var(--line); cursor:zoom-in; margin:0; display:block;}
+  @media (max-width:640px){
+    .approach-img-row{flex-direction:column;}
+    .approach-img-row img{height:auto;}
+  }
+  .case-demo-video{width:100%; border-radius:12px; border:1px solid var(--line); display:block; background:#000;}
+  .case-flow{display:flex; gap:16px; overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:10px; -webkit-overflow-scrolling:touch; scrollbar-width:none; -ms-overflow-style:none;}
+  .case-flow::-webkit-scrollbar{display:none;}
+  .case-flow-item{flex:0 0 76%; scroll-snap-align:start;}
+  @media (min-width:600px){ .case-flow-item{flex:0 0 300px;} }
+  .case-flow-hint{font-size:11px; color:var(--muted); margin-bottom:12px;}
+  .case-flow-item img{width:100%; height:auto; border-radius:8px; border:1px solid var(--line); cursor:zoom-in; margin-bottom:8px; display:block;}
+  .case-flow-item .lbl{font-weight:600; font-size:12.5px; margin-bottom:4px;}
+  .case-flow-item .cap{font-size:11.5px; color:var(--muted); line-height:1.5;}
+  .case-next{display:block; padding:26px 28px; border:1px solid var(--line); border-radius:10px; margin-top:8px; cursor:pointer; transition:border-color .15s;}
+  .case-next:hover{border-color:var(--accent);}
+  .case-next .lbl{font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--muted); margin-bottom:8px;}
+  .case-next .ttl{font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:17px;}
+  .case-tags{display:flex; flex-wrap:wrap; gap:6px;}
+  .tag{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--accent); background:var(--accent-soft); padding:3px 9px; border-radius:5px;}
+
+  /* PUBLICATIONS */
+  .pub{padding:18px 12px; margin:0 -12px; border-top:1px solid var(--line); display:flex; justify-content:space-between; gap:20px; font-size:14px; cursor:pointer; border-radius:8px;}
+  .pub:last-child{border-bottom:1px solid var(--line);}
+  .pub-title{max-width:60ch; color:var(--ink);}
+  .pub-venue{font-family:'IBM Plex Mono', monospace; color:var(--muted); font-size:12.5px; white-space:nowrap;}
+  .pub:focus-visible{outline-offset:4px;}
+
+  /* CONTACT */
+  .contact{display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:24px;}
+  .contact h2{font-family:'Space Grotesk', sans-serif; font-size:32px; font-weight:600; max-width:16ch;}
+  .contact-links{display:flex; flex-direction:column; gap:8px;}
+  .contact-links a{font-family:'IBM Plex Mono', monospace; font-size:14px; color:var(--muted); display:flex; align-items:center; gap:8px;}
+  .contact-links a:hover{color:var(--accent);}
+
+  footer{padding:24px 0 40px; font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--muted); display:flex; justify-content:space-between;}
+
+  /* SCROLL REVEAL (progressive enhancement) */
+  .reveal.pre{opacity:0; transform:translateY(32px); transition:opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);}
+  .reveal.pre.in-view{opacity:1; transform:translateY(0);}
+
+  @media (max-width:720px){
+    .about-grid{grid-template-columns:1fr;}
+    .stats{grid-template-columns:1fr; }
+    .stat{border-right:none; border-bottom:1px solid var(--line);}
+    .stat:last-child{border-bottom:none;}
+    .navlinks{display:none;}
+    .contact{flex-direction:column; align-items:flex-start;}
+    .case-meta-grid{grid-template-columns:repeat(2,1fr);}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .hero-tag .caret{animation:none;}
+    html{scroll-behavior:auto; scroll-snap-type:none;}
+    .reveal.pre{opacity:1; transform:none; transition:none;}
+    .case-card:hover, .pub:hover{transform:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <div class="brand"><span class="dot"></span>JAE-0.DEV</div>
+      <div style="display:flex; align-items:center; gap:20px;">
+        <div class="navlinks">
+          <a href="#projects">Projects</a>
+          <a href="#publications">Publications</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <button class="theme-toggle" id="themeToggle" aria-label="테마 전환">☀</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="mainView">
+  <section class="hero wrap" style="padding-top:96px;">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-tag mono">
+          <span class="caret"></span> status: open to work
+        </div>
+        <h1>윤재영<br><span class="line2">Backend Developer</span></h1>
+        <p class="hero-desc">
+          간결한 구조로, 고가용성의 시스템을 검증하며 만드는 신입 개발자입니다.
+        </p>
+        <div class="hero-meta">
+          <span class="pill">Backend</span>
+          <span class="pill">LoRaWAN</span>
+          <span class="pill">Distributed Systems</span>
+        </div>
+      </div>
+      <div class="hero-photo">
+        <!-- 사진 파일을 assets 폴더에 넣고 아래 src만 바꾸면 됩니다 -->
+        <img src="assets/profile.jpg" alt="프로필 사진">
+      </div>
+    </div>
+
+    <div class="stats" style="margin-top:56px;">
+      <div class="stat"><div class="num">07</div><div class="label">Projects</div></div>
+      <div class="stat"><div class="num">05</div><div class="label">Publications</div></div>
+      <div class="stat"><div class="num">03</div><div class="label">Years Research</div></div>
+    </div>
+  </section>
+
+  <section id="projects" class="wrap reveal">
+    <div class="sec-label">01 PROJECTS</div>
+    <h2 class="sec-title">주요 프로젝트</h2>
+    <div class="case-list" id="caseList"></div>
+  </section>
+
+  <section id="publications" class="wrap reveal">
+    <div class="sec-label">02 PUBLICATIONS</div>
+    <h2 class="sec-title">논문</h2>
+    <div id="pubList"></div>
+  </section>
+
+  <section id="contact" class="wrap reveal">
+    <div class="sec-label">03 CONTACT</div>
+    <div class="contact">
+      <h2>함께 이야기 나누고 싶다면 연락 주세요</h2>
+      <div class="contact-links">
+        <a href="#">✉ wodud0747@naver.com</a>
+        <a href="https://github.com/jae-0" target="_blank">↗ github.com/jae-0</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="case-view wrap" id="caseView"></div>
+
+<footer class="wrap">
+  <span>© 2026</span>
+  <span>Seoul, KR</span>
+</footer>
+
+<script>
+  const ORDER = ["billforu", "uplus", "stt"];
+
+  const PROJECTS = {
+    billforu: {
+      idx: "01",
+      title: "BillForU+",
+      org: "BillForU+",
+      period: "2026.01",
+      gradient: "grad-1",
+      cardImg: "assets/billforu/billforu-cover.png",
+      desc: "대용량 통신 요금 명세서 정산 및 멀티채널 실시간 알림 발송 시스템",
+      meta: [
+        { label: "Role", value: "팀장" },
+        { label: "Timeline", value: "2026.01" },
+        { label: "Team", value: "백엔드 5명" },
+        { label: "GitHub", value: "Ureca4/ureca4-be", href: "https://github.com/Ureca4/ureca4-be" }
+      ],
+      hero: "assets/billforu/billforu-cover.png",
+      overview: [
+        "<span class=\"hl\">100만 명의 가상 유저와 월 500만 건의 월간 청구 데이터</span>를 빠르고 정확하게 정산하기 위해 구축한 대규모 분산 백엔드 시스템입니다.",
+        "대용량 데이터 처리 시 발생하는 병목 현상을 해결하고자 Spring Batch와 Kafka를 결합한 비동기 이벤트 기반 아키텍처를 도입했으며, Redis를 활용한 발송 제어(중복 방지, 심야 시간 제한)를 통해 엔터프라이즈급의 안정성을 확보했습니다."
+      ],
+      flow: [
+        { img: "assets/billforu/billforu-flow-batch.png", label: "배치 관리 — 정산 실행", cap: "정산 대상 월을 선택해 배치를 실행하면, 해당 월 전체 활성 유저의 요금이 정산되고 완료 후 Kafka로 자동 발행됩니다." },
+        { img: "assets/billforu/billforu-flow-dashboard.png", label: "관리자 대시보드", cap: "전체 유저, 청구서 발송 현황, 성공률을 실시간으로 모니터링합니다." },
+        { img: "assets/billforu/billforu-flow-notification.png", label: "알림 관리 — 실패 재시도", cap: "발송 실패 횟수 3회 미만인 청구서는 자동으로 재시도되고, 3회 이상 실패한 건은 SMS로 전환됩니다." },
+        { img: "assets/billforu/billforu-flow-queue.png", label: "대기열 — 발송 스케줄링", cap: "사용자가 설정해놓은 금지 시간이 있다면 대기하고 있다가 자동으로 발송되는 기능입니다." },
+        { img: "assets/billforu/billforu-flow-data.png", label: "데이터 조회 — 유저 상세", cap: "유저별 요금제, 부가서비스, 소액결제, 청구서 내역을 상세 조회할 수 있습니다." }
+      ],
+      architecture: {
+        img: "assets/billforu/billforu-architecture.png",
+        caption: ""
+      },
+      part: [
+        "정산 배치 아키텍처 설계 및 일부 구현 (더미데이터 생성 ~ Outbox 이벤트 생성)",
+        "보안 및 암호화 기능 구현",
+        "발표"
+      ],
+      problem: [
+        "실제 요금제와 가까운 ERD를 구성해야 했습니다.",
+        "많은 데이터를 빠르면서 누락없이 보내야 했습니다.",
+        "청구서를 저장하는 것과 그에 대한 알림을 발송하는 것을 동시에 안전하게 처리하는 게 문제였습니다.",
+        "처리 과정에서 데이터의 암호화 수준을 적절하게 설정해야 했습니다."
+      ],
+      approach: [
+        {
+          title: "마스터 테이블 + 중간 테이블 설계",
+          paragraphs: [
+            "요금제와 부가서비스를 마스터 테이블로 만들어, 요금 정책이 바뀌어도 코드 수정 없이 DB 값만 갱신하면 반영되도록 설계했습니다."
+          ],
+          bullets: [
+            "중간 테이블을 설계하여 한 사람이 여러 부가서비스를 동시에 가입할 수 있다는 점과, 요금제는 시간이 지나면서 변경할 수 있도록 확장하였습니다.",
+            "부가서비스는 동시 가입이 가능해 각 건을 기록해 합산하고, 요금제는 한 시점에 하나만 유효해 시작일·종료일로 그 시점의 요금제를 정확히 짚어내도록 설계했습니다."
+          ],
+          img: "assets/billforu/billforu-erd.png"
+        },
+        {
+          title: "대량 데이터 처리",
+          paragraphs: [
+            "대량 데이터를 다뤄야 했기 때문에, JPA의 영속성 컨텍스트 오버헤드를 피하고자 처음부터 JDBC 기반(Spring Batch의 JdbcBatchItemWriter)으로 설계했습니다.",
+            "청크 단위(1,000~10,000건) 배치 처리로 insert 성능을 확보했습니다."
+          ]
+        },
+        {
+          title: "Transactional Outbox Pattern",
+          paragraphs: [
+            "Outbox 패턴을 적용해, 알림을 즉시 Kafka로 보내지 않고 먼저 OUTBOX_EVENTS 테이블에 \"발송 대기(READY)\" 상태로 기록해두는 방식을 택했습니다."
+          ],
+          imgs: [
+            "assets/billforu/billforu-outbox-flow.png",
+            "assets/billforu/billforu-outbox-erd-flow.png"
+          ],
+          note: [
+            "정산 작업과 Outbox 처리 작업을 하나로 묶으면 오류 발생 시 이미 끝난 정산 계산까지 재실행 대상이 될 거라 판단하여 정산 Step과 <span class=\"hl\">분리된 별도 Step</span>으로 구성하였습니다."
+          ]
+        },
+        {
+          title: "AES 메시지 전체 암호화",
+          bullets: [
+            "암호화 범위는 특정 필드만이 아니라 전송되는 메시지 <span class=\"req-hover\"><a href=\"assets/billforu/billforu-kafka-format.png\" target=\"_blank\" style=\"color:var(--accent); text-decoration:underline; text-underline-offset:3px;\">전체</a><span class=\"req-preview req-preview-sm\"><img src=\"assets/billforu/billforu-kafka-format.png\" alt=\"메시지 포맷\"></span></span>로 설정해, 청구 정보를 JSON으로 직렬화한 뒤 전체를 AES로 암호화하는 방식을 택했습니다.",
+            "AES 대칭키를 환경변수로 분리 관리하며 사용했습니다.",
+            "잘 모르는 부분이라 보안 쪽의 실무자에게 직접 자문을 구해 진행했습니다."
+          ]
+        }
+      ],
+      impact: [
+        "월 500만 건 처리 규모에서 메시지 유실률 <span class=\"hl\">0%</span> 달성",
+        "LG U+ 유레카 종합프로젝트 <span class=\"req-hover\"><a href=\"assets/billforu/billforu-award-certificate.png\" target=\"_blank\" style=\"color:var(--accent); text-decoration:underline; text-underline-offset:3px;\">최우수상</a><span class=\"req-preview req-preview-md\"><img src=\"assets/billforu/billforu-award-certificate.png\" alt=\"최우수상 상장\"></span></span> 수상"
+      ],
+      reflection: [
+        "백엔드 반 안에서 동일 주제로 대회를 진행하여서 좋은 성적을 거두기 위해선 <span class=\"hl\">차별점</span>을 가져야 했습니다.",
+        "차별점으로 최대한 <span class=\"req-hover\"><a href=\"assets/billforu/billforu-basic-flow.png\" target=\"_blank\" style=\"color:var(--accent); text-decoration:underline; text-underline-offset:3px;\">간결한 아키텍처</a><span class=\"req-preview req-preview-md\"><img src=\"assets/billforu/billforu-basic-flow.png\" alt=\"간결한 아키텍처\"></span></span>로 좋은 성능을 내도록 하여, 이 프로젝트를 실제로 U+에 판다는 마음가짐으로 진행했습니다.",
+        "좋은 성적을 거둔 것보다 의도에 맞게 평가를 받았다는 점이 뜻깊었습니다.",
+        "낯선 도메인일수록 기초를 단단히 하지 않으면 개발의 방향성과 추진력을 잃기 쉽다는 것을 깨달았습니다."
+      ],
+      tags: ["Spring Boot", "Spring Batch", "Kafka", "Transactional Outbox Pattern", "Redis"]
+    },
+    uplus: {
+      idx: "02",
+      title: "LG U+ 프리톡",
+      org: "LG U+ 프리톡",
+      period: "2026.02 – 2026.03",
+      gradient: "grad-2",
+      cardImg: "assets/uplus-freetalk/uplus-freetalk-cover.png",
+      desc: "Pre-Talk으로 Free Talk하자",
+      meta: [
+        { label: "Role", value: "팀장" },
+        { label: "Timeline", value: "2026.02 – 2026.03" },
+        { label: "Team", value: "백엔드 5명 · 프론트엔드 2명" },
+        { label: "GitHub", value: "orgs/LG-URECA-3", href: "https://github.com/orgs/LG-URECA-3/repositories" }
+      ],
+      hero: "assets/uplus-freetalk/uplus-freetalk-cover.png",
+      overview: [
+        "U+ 프리톡은 고객이 상담을 신청하기 전에 AI가 유사 FAQ를 기반으로 먼저 답을 제시하고, 그 피드백을 상담원에게 전달해 상담원이 고객 문의를 빠르게 파악할 수 있도록 돕는 통신사 고객상담 어시스턴트입니다.",
+        "상담이 끝나면 대화 내용을 자동 요약하고, 이를 다시 FAQ 지식베이스로 축적해 상담이 쌓일수록 스스로 성장하는 지식 구조를 만들었습니다."
+      ],
+      flow: [
+        { img: "assets/uplus-freetalk/uplus-flow-1.png", label: "상담 전 — 문의 입력", cap: "고객이 문의 카테고리와 상세 내용을 입력합니다." },
+        { img: "assets/uplus-freetalk/uplus-flow-2.png", label: "상담 전 — AI 답변 확인", cap: "유사 FAQ와 AI 종합 답변을 보여주고 도움이 됐는지 체크하게 합니다. 해결되면 종료, 해결되지 않으면 상담사로 연결됩니다." },
+        { img: "assets/uplus-freetalk/uplus-flow-3.png", label: "상담 중 — 상담사 화면", cap: "연결된 상담사는 고객의 문의 내용과 체크한 FAQ 결과를 미리 보고, 문의 내용을 빠르게 파악할 수 있습니다." },
+        { img: "assets/uplus-freetalk/uplus-flow-4.png", label: "상담 후 — 데이터 자산화", cap: "상담 종료 후 요약과 키워드 생성을 거쳐 Elasticsearch에 색인이 완료된 로그입니다." },
+        { img: "assets/uplus-freetalk/uplus-flow-5.png", label: "상담 후 — 상담 기록 및 요약 조회", cap: "상담 종료 후 저장된 기록과 요약을 조회할 수 있습니다." },
+        { img: "assets/uplus-freetalk/uplus-flow-6.png", label: "상담 후 — 키워드 검색", cap: "상담 종료 후 입력한 키워드와 관련된 상담을 검색할 수 있습니다." }
+      ],
+      problem: [
+        "상담을 시작할 때 고객의 많은 데이터를 빠르게 띄워야 했습니다.",
+        "상담이 끝난 후에 상담원은 후처리 과정을 기다리지 않고 상담의 회전율을 높여야 했습니다.",
+        "주어진 <span class=\"req-hover\"><a href=\"assets/uplus-freetalk/uplus-baseline-requirements.png\" target=\"_blank\" style=\"color:var(--accent); text-decoration:underline; text-underline-offset:3px;\">기본 요구사항</a><span class=\"req-preview\"><img src=\"assets/uplus-freetalk/uplus-baseline-requirements.png\" alt=\"기본 요구사항\"></span></span>만으로, 짧은 기간 안에 차별점을 가져야 했습니다."
+      ],
+      approach: [
+        {
+          title: "Redis 캐시 워밍",
+          paragraphs: ["Redis를 이용해 상담 접수 직후 고객의 개인 정보와 상담 도움 여부를 한번에 담아 상담원이 빠르게 불러올 수 있도록 캐싱하였습니다."]
+        },
+        {
+          title: "Kafka 비동기 처리 + Outbox 패턴",
+          paragraphs: ["Kafka로 후처리 과정을 비동기로 분리해 상담원이 기다리지 않고 다음 상담으로 넘어갈 수 있게 했고, 이 발행 과정에서 <span class=\"hl\">이벤트가 유실되지 않도록 Outbox 패턴</span>을 함께 도입했습니다."]
+        },
+        {
+          title: "차별화 기능 집중",
+          paragraphs: ["사용자 인증 기능 같은 기본 요구사항은 OAuth 2.0의 OIDC를 활용해 간단하게 구현했고, 생각을 뒤집어 <span class=\"hl\">자산화된 상담 데이터를 소요 시간이 긴 상담 전</span>에 활용할 수 있도록 하였습니다. 이를 통해 고객은 상담 전에 스스로 문제를 해결할 기회를 얻고, 상담원은 고객이 이미 확인한 내용을 미리 파악해 상담 방향을 구체적으로 잡을 수 있게 되어 업무 능률이 향상될 수 있습니다."]
+        }
+      ],
+      architecture: {
+        img: "assets/uplus-freetalk/uplus-architecture.png",
+        caption: ""
+      },
+      part: [
+        "프로젝트 메인 아이디어 제시 및 아키텍처 설계",
+        "Google OIDC 및 JWT 기반 보안 체계 구현",
+        "Redis 캐시 워밍 및 Kafka 파이프라인 전반 구축"
+      ],
+      impact: [
+        "발행 유실 <span class=\"hl\">0건</span>. 처리 도중 서버를 강제 종료했다가 재기동해도 실패했던 지점부터 이어서 정상 처리되는 것을 직접 확인했습니다."
+      ],
+      reflection: [
+        "구현보다 차별적인 아이디어를 내고, 아키텍처를 설계하는 부분이 훨씬 어렵다는 걸 다시 한번 느꼈습니다.",
+        "팀원의 갑작스러운 부재로 프로젝트를 확장할 수 없었다는 게 아쉬웠습니다. 팀원 한 명의 부재도 프로젝트에 엄청 크게 작용한다는 걸 깨달은 경험이었습니다.",
+        "동시에 전체적인 과정을 이해하고 있으면, 빠진 부분을 빠르게 커버할 수 있었다는 점도 배웠습니다.",
+        "향후 개선 아이디어: 현재 Redis로 동기 처리되고 있는 \"오늘의 상담 완료 개수\" 집계를, 이미 발행 중인 Kafka 이벤트를 구독하는 별도 컨슈머로 분리하면 상담 종료 API의 책임을 더 가볍게 만들 수 있다는 개선 지점을 확인했습니다."
+      ],
+      tags: ["Spring Boot", "Kafka", "Redis", "Elasticsearch", "OIDC", "MySQL"],
+      links: [{ label: "GitHub ↗", url: "https://github.com/orgs/LG-URECA-3/repositories" }]
+    },
+    stt: {
+      idx: "03",
+      title: "전북도청 생성형 AI",
+      org: "전북도청 생성형 AI",
+      period: "2025.03 – 2025.06",
+      gradient: "grad-3",
+      cardImg: "assets/stt/stt-cover.png",
+      desc: "전북도청 공무원을 위한 오픈소스 기반 생성형 AI",
+      meta: [
+        { label: "Role", value: "팀원" },
+        { label: "Timeline", value: "2025.03 – 2025.06" },
+        { label: "Team", value: "4인" },
+        { label: "GitHub", value: "wlgh9030/open-webui", href: "https://github.com/wlgh9030/open-webui" }
+      ],
+      hero: "assets/stt/stt-cover.png",
+      overview: [
+        "전북특별자치도청과 전북대학교 SW중심대학사업단이 함께 진행한 산학협력 프로젝트로, 기존 행정 AI 챗봇 사례들이 외부 상용 API에 의존하는 한계를 넘어, 오픈소스 모델만으로 도청 공무원 약 3,000명이 실제로 쓸 수 있는 생성형 AI 시스템을 구축했습니다.",
+        "부서별 방대한 업무편람·행정규정을 검색·질의응답하는 RAG 기반 '업무편람 도우미'와, 회의록·민원 녹음 등 음성 데이터를 텍스트로 변환하는 STT 기능을 핵심으로 두고, 질문 증강·웹 검색·이미지 및 문서 파일 처리 기능을 함께 구현했습니다."
+      ],
+      flow: [
+        { img: "assets/stt/main.png", label: "메인 화면", cap: "로그인 후 진입하는 생성형 AI의 메인 채팅 화면입니다." },
+        { img: "assets/stt/rag.png", label: "업무편람 도우미 (RAG)", cap: "부서별 업무편람·행정규정을 벡터화해 검색·질의응답하는 RAG 기반 기능입니다." },
+        { img: "assets/stt/stt-message.png", label: "STT 결과 Q&A", cap: "변환된 텍스트를 기반으로 파일 내용에 대한 질의응답이 가능합니다." },
+        { img: "assets/stt/API_limit.png", label: "API 사용량 제한", cap: "개인별 토큰 사용량을 제한해 외부 상용 API와 자체 AI를 함께 운영합니다." },
+        { img: "assets/stt/UI_set.png", label: "UI 설정", cap: "글씨 크기 조절 등 전북도청 시스템에 맞게 커스터마이징한 UI 설정 화면입니다." }
+      ],
+      architecture: {
+        img: "assets/stt/stt-architecture.png",
+        label: "Function Architecture",
+        caption: "음성 파일을 업로드하면 wav로 변환 후 무음 기준으로 분할하고, 각 조각을 STT 변환한 뒤 반복 문구를 제거해 유효 텍스트만 추출합니다. 변환된 텍스트 청크는 병합되어 txt·docx로 저장되며, 이후 해당 파일에 대한 질의응답(Q&A)이 가능합니다."
+      },
+      part: [
+        "백엔드 추론 엔진(vLLM vs SGLang) 성능 비교",
+        "STT(Speech-to-Text) 기능 구현"
+      ],
+      problem: [
+        "성능이 가장 좋은 백엔드 추론 엔진을 찾아내야 했습니다.",
+        "회의 녹음, 민원 응대 등에서 발생하는 음성 데이터를 수기로 정리하는 데 오랜 시간이 걸리고, 정보 누락·요약 왜곡이 발생했습니다.",
+        "기존 AI 플랫폼은 음성 파일을 직접 처리할 수 없고, STT 전용 서비스는 AI와의 연동이 어렵거나 보안 문제가 있었습니다."
+      ],
+      approach: [
+        {
+          title: "백엔드 추론 엔진 성능 비교",
+          paragraphs: [
+            "vLLM과 SGLang을 대상으로 단일 요청 TTFT, 긴 컨텍스트(16K 토큰) TTFT, 동시성별 출력 속도(Tokens/sec)를 비교했습니다."
+          ],
+          imgs: [
+            "assets/stt/stt-engine-1.png",
+            "assets/stt/stt-engine-2.png",
+            "assets/stt/stt-engine-3.png"
+          ],
+          note: [
+            "비교 결과 대부분의 지표에서 SGLang이 더 나은 성능을 보여, 백엔드 추론 엔진으로 SGLang을 선정했습니다."
+          ]
+        },
+        {
+          title: "STT 기능 구현 및 성능 검증",
+          imgsTop: [
+            "assets/stt/stt-download.png",
+            "assets/stt/stt-timeline.png"
+          ],
+          paragraphs: [
+            "긴 시간의 회의 음성까지도 자동 변환할 수 있도록 하였고, 이를 요약·질의응답까지 가능한 구조로 구현했습니다.",
+            "txt엔 원문만, docx에는 타임라인을 추가한 파일로 다운로드를 받을 수 있도록 구현하였습니다."
+          ],
+          imgs: [
+            "assets/stt/stt-benchmark.png",
+            "assets/stt/stt-ppt.png",
+          ],
+          note: [
+            "119 구급상담 녹음 전화 데이터를 기준으로 Naver Clova Note와 비교했을 때, Whisper 모델은 핵심 단어 중요도(TF-IDF)와 맥락 파악에서 더 높은 성능을 보였고, 세부 단어 정확도(WER/CER)는 Clova Note가 다소 우수했지만 전체적으로 크게 뒤처지지 않는 성능을 확인했습니다."
+          ]
+        }
+      ],
+      impact: [
+        "<span class=\"req-hover\"><a href=\"assets/stt/stt-award-capstone.png\" target=\"_blank\" style=\"color:var(--accent); text-decoration:underline; text-underline-offset:3px;\">2025학년도 SW캡스톤디자인 경진대회 대상</a><span class=\"req-preview req-preview-md\"><img src=\"assets/stt/stt-award-capstone.png\" alt=\"2025학년도 SW캡스톤디자인 경진대회 대상\"></span></span> 수상",
+        "<span class=\"req-hover\"><a href=\"assets/stt/stt-award-governor.png\" target=\"_blank\" style=\"color:var(--accent); text-decoration:underline; text-underline-offset:3px;\">전북특별자치도지사 표창</a><span class=\"req-preview req-preview-md\"><img src=\"assets/stt/stt-award-governor.png\" alt=\"전북특별자치도지사 표창\"></span></span> 수상"
+      ],
+      reflection: [
+        "프로젝트에 좀 더 주도적으로 참여하지 못해 기여도가 상대적으로 낮았던 점이 아쉬웠습니다.",
+        "산업체와 처음으로 함께 진행한 프로젝트라, 실제 요구사항을 어떻게 해석하고 풀어내야 하는지 배울 수 있었습니다."
+      ],
+      tags: ["FastAPI", "Open WebUI", "STT"]
+    }
+  };
+
+  const PUB_ORDER = ["adr-tmin", "adr-classa", "adr-margin", "ec-vm-testbed", "pgil-repair"];
+
+  const PAPERS = {
+    "adr-tmin": {
+      title: "Improved Analysis and Design of ADR Algorithm for Energy-Efficient LoRaWAN System",
+      venue: "IEEE Comm. Letters",
+      period: "2025.05",
+      authors: "Chanki Kim, Jaeyoung Yoon, Jiho Jeon",
+      abstract: ["기존 ADR-MIN 알고리즘이 수렴하는 점근적 확산 계수(SF) 분포를 확률적 패킷 충돌 모델로 이론적으로 추정하고, SINR 값을 선별적으로 활용하는 ADR-TMIN(Truncated MIN) 알고리즘을 새로 제안한 논문입니다."],
+      motivation: ["기존 ADR 알고리즘 성능 분석은 대부분 시뮬레이션이나 실측에 의존해, 에너지 효율성에 대한 이론적 근거가 부족했습니다."],
+      method: ["패킷 충돌 확률 모델을 기반으로 ADR-MIN의 점근적 SF 분포를 유도하고, SINR 값이 지나치게 높거나 낮은 극단적인 경우를 잘라내는(truncation) ADR-TMIN 알고리즘을 설계했습니다."],
+      result: ["Flora 시뮬레이터 검증 결과, 제안한 ADR-TMIN이 SF 과밀집 문제를 줄이며 기존 ADR 알고리즘 대비 더 높은 에너지 효율성을 보였습니다."]
+    },
+    "adr-classa": {
+      title: "Class A 노드 및 LoRaWAN 내 ADR 알고리즘의 에너지 효율성 분석",
+      venue: "KICS",
+      period: "2024.11",
+      authors: "김찬기, 윤재영, 전지호",
+      abstract: ["ADR(Adaptive Data Rate) 알고리즘이 산출하는 전송 전력·확산 계수 분포가 실제로 에너지 효율성 조건을 만족하는지, 기존 이론과 일치하는지를 실험적으로 검증한 연구입니다."],
+      motivation: ["LoRaWAN은 저전력 장거리 통신에 유리하지만, ADR 알고리즘이 실제로 에너지 효율적인 분포에 도달하는지는 충분히 검증되지 않았습니다."],
+      method: ["GW 1개와 Class A 노드 N개로 구성된 시스템 모델에서 ADR-TTN 조정식을 바탕으로, 확산 계수(SF)별 노드 수·처리 이득·목표 SNR 간의 에너지 효율성 조건식을 이론적으로 유도했습니다."],
+      result: ["유도한 이론적 SF 분포 조건을 시뮬레이션 결과와 비교해, 이론과 실제 분포가 유사하게 수렴함을 확인했습니다."]
+    },
+    "adr-margin": {
+      title: "다양한 LoRaWAN 환경에서 ADR-MIN 알고리즘의 에너지 효율성이 있는 디바이스 마진 최적화 연구",
+      venue: "KICS",
+      period: "2024.11",
+      authors: "전지호, 윤재영, 김찬기",
+      abstract: ["도심·해안·숲 등 서로 다른 채널 환경에서 ADR 알고리즘이 에너지 효율적으로 동작하는 디바이스 SNR 마진 범위를 추적한 연구입니다."],
+      motivation: ["환경별 경로 손실 특성이 다르기 때문에, 동일한 마진값이 모든 환경에서 최적의 에너지 효율성을 보장하지는 않습니다."],
+      method: ["OMNeT++ 기반 Flora 시뮬레이터에 도심·해안·숲 3가지 경로 손실 파라미터를 적용해, ADR-MIN과 ADR-AVG 알고리즘을 마진값 5~20dB 구간에서 비교했습니다."],
+      result: ["ADR-MIN이 모든 환경에서 ADR-AVG보다 에너지 효율적이었고, 도심은 10~15dB, 해안·숲은 15dB 부근에서 최적의 마진 범위를 확인했습니다."]
+    },
+    "ec-vm-testbed": {
+      title: "이레이저 코딩이 적용된 분산 저장 시스템 환경 시연을 위한 가상 머신 테스트베드 구축",
+      venue: "JCCI",
+      period: "2025",
+      authors: "김찬기, 전지호, 윤재영",
+      abstract: ["OpenEC와 HDFS를 활용해 이레이저 코딩 기반 분산 저장 시스템을 가상 머신 환경에서 재현하고, 노드별 대역폭 제약에 따른 복구 시간을 벤치마킹한 연구입니다."],
+      motivation: ["이레이저 코딩의 실제 복구 성능은 연산 가속뿐 아니라 네트워크 대역폭 등 I/O 영향을 크게 받아, 이를 재현할 수 있는 클러스터 환경이 필요했습니다."],
+      method: ["Hyper-V 기반 VM 15대(저장 노드 14 + 제어 노드 1)에 (14,10) RS 부호 기반 OpenEC를 구성하고, VM별 NIC 대역폭을 1Mbps·10Mbps·무제한으로 제한하며 복구 시간을 측정했습니다."],
+      result: ["대역폭 제한별 예측 복구 시간과 실측값이 근접하게 일치함을 확인해, 이레이저 코딩 복구 성능에서 네트워크 전송 시간이 차지하는 비중이 크다는 것을 보였습니다."]
+    },
+    "pgil-repair": {
+      title: "Design of Bandwidth-Efficient Repair Pipelining for Erasure-Coded Distributed Storage Systems",
+      venue: "투고 중",
+      period: "2026",
+      authors: "논문 심사 중 (익명 처리)",
+      abstract: ["업로드·다운로드 대역폭이 비대칭적으로 제한된 분산 저장 시스템에서, helper 노드 선택과 복구 그래프 구성을 최적화해 대역폭 효율을 높이는 새로운 repair pipelining 기법(PG-IL)을 제안한 논문입니다."],
+      motivation: ["실제 분산 저장 시스템은 읽기·쓰기 요청 비대칭으로 인해 업로드·다운로드 대역폭이 서로 다른 경우가 많은데, 기존 repair pipelining 기법들은 이를 충분히 고려하지 않았습니다."],
+      method: ["업로드 대역폭 기준으로 helper 노드를 먼저 선택하고, 다운로드 대역폭 기준으로 파이프라인·리프 구조를 구성하는 2단계(PG-IL) 설계를 제안하고, OpenEC 프레임워크에 직접 구현했습니다."],
+      result: ["VM 및 AWS 클라우드 환경 실험에서, 제안 기법이 기존 repair pipelining·PPR·PivotRepair 대비 더 높은 대역폭 효율(η_T)을 달성했습니다."]
+    }
+  };
+
+  const mainView = document.getElementById('mainView');
+  const caseView = document.getElementById('caseView');
+  const caseList = document.getElementById('caseList');
+  const pubList = document.getElementById('pubList');
+
+  function cardHTML(id) {
+    const p = PROJECTS[id];
+    const visual = p.cardImg
+      ? `<img src="${p.cardImg}" alt="${p.title}">`
+      : `<div class="case-visual-type">${p.org.slice(0, 2).toUpperCase()}</div>`;
+    return `<a class="case-card reveal" data-proj="${id}" tabindex="0" role="button">
+      <div class="case-visual ${p.gradient}">${visual}</div>
+      <div class="case-card-foot">
+        <span>${p.idx}</span>
+        <span>${p.org} · ${p.period}</span>
+      </div>
+      <h3 class="case-title">${p.title}</h3>
+      <p class="case-desc">${p.desc}</p>
+    </a>`;
+  }
+
+  function pubHTML(id) {
+    const p = PAPERS[id];
+    return `<div class="pub" data-pub="${id}" tabindex="0" role="button">
+      <div class="pub-title">${p.title}</div>
+      <div class="pub-venue mono">${p.venue}</div>
+    </div>`;
+  }
+
+  function metaGridHTML(meta) {
+    if (!meta || !meta.length) return '';
+    let html = `<div class="case-meta-grid">`;
+    meta.slice(0, 4).forEach(m => {
+      const val = m.href ? `<a href="${m.href}" target="_blank">${m.value} ↗</a>` : m.value;
+      html += `<div><div class="case-meta-label mono">${m.label}</div><div class="case-meta-val">${val}</div></div>`;
+    });
+    html += `</div>`;
+    return html;
+  }
+
+  function renderCase(id) {
+    const p = PROJECTS[id];
+    let html = `<button class="case-back" onclick="closeDetail('projects')">← 전체 프로젝트</button>`;
+    html += `<div class="case-eyebrow mono">Case ${p.idx} — ${p.org} · ${p.period}</div>`;
+    html += `<h1 class="case-title-lg">${p.title}</h1>`;
+    html += `<p class="case-desc-lg">${p.desc}</p>`;
+    if (p.hero) html += `<img class="case-hero-img" src="${p.hero}" alt="${p.title}">`;
+    html += metaGridHTML(p.meta);
+
+    if (p.overview) {
+      html += `<div class="case-block"><h2>Overview</h2>`;
+      p.overview.forEach(par => { html += `<p>${par}</p>`; });
+      html += `</div>`;
+    }
+
+    if (p.flow) {
+      html += `<div class="case-block"><h2>Product Flow</h2>
+        <div class="case-flow-hint mono">← 옆으로 넘겨서 보기 →</div>
+        <div class="case-flow">`;
+      p.flow.forEach(f => {
+        html += `<div class="case-flow-item">
+          <img src="${f.img}" alt="${f.label}" onclick="window.open('${f.img}','_blank')">
+          <div class="lbl">${f.label}</div>
+          <div class="cap">${f.cap}</div>
+        </div>`;
+      });
+      html += `</div></div>`;
+    }
+
+    if (p.demo) {
+      html += `<div class="case-block"><h2>Demo</h2>
+        <video class="case-demo-video" controls preload="metadata" src="${p.demo}"></video>
+      </div>`;
+    }
+
+    if (p.architecture) {
+      html += `<div class="case-block"><h2>${p.architecture.label || 'Architecture'}</h2>
+        <img src="${p.architecture.img}" alt="${p.title} 아키텍처" style="width:100%; border-radius:10px; border:1px solid var(--line); display:block; margin-bottom:14px; cursor:zoom-in;" onclick="window.open('${p.architecture.img}','_blank')">
+        <p style="font-size:13px; color:var(--muted);">${p.architecture.caption}</p>
+      </div>`;
+    }
+
+    if (p.part) {
+      html += `<div class="case-block"><h2>Part</h2><ul>`;
+      p.part.forEach(b => { html += `<li>${b}</li>`; });
+      html += `</ul></div>`;
+    }
+
+    if (p.problem) {
+      html += `<div class="case-block"><h2>Problem</h2><ul>`;
+      p.problem.forEach(b => { html += `<li>${b}</li>`; });
+      html += `</ul></div>`;
+    }
+
+    if (p.approach) {
+      html += `<div class="case-block"><h2>Approach</h2>`;
+      p.approach.forEach((a, i) => {
+        html += `<div class="case-approach-item"><h3><span class="step-badge">${i + 1}</span>${a.title}</h3>`;
+        if (a.imgsTop) {
+          html += `<div class="approach-img-row">`;
+          a.imgsTop.forEach(src => { html += `<img src="${src}" alt="${a.title}" onclick="window.open('${src}','_blank')">`; });
+          html += `</div>`;
+        }
+        if (a.paragraphs) a.paragraphs.forEach(par => { html += `<p>${par}</p>`; });
+        if (a.img) html += `<img src="${a.img}" alt="${a.title}">`;
+        if (a.imgs) {
+          html += `<div class="approach-img-row">`;
+          a.imgs.forEach(src => { html += `<img src="${src}" alt="${a.title}" onclick="window.open('${src}','_blank')">`; });
+          html += `</div>`;
+        }
+        if (a.bullets) {
+          html += `<ul>`;
+          a.bullets.forEach(b => { html += `<li>${b}</li>`; });
+          html += `</ul>`;
+        }
+        if (a.note) {
+          a.note.forEach(par => { html += `<p style="margin-top:14px;">${par}</p>`; });
+        }
+        html += `</div>`;
+      });
+      html += `</div>`;
+    }
+
+    if (p.impact) {
+      html += `<div class="case-block"><h2>Impact</h2><ul>`;
+      p.impact.forEach(b => { html += `<li>${b}</li>`; });
+      html += `</ul></div>`;
+    }
+
+    if (p.reflection) {
+      html += `<div class="case-block"><h2>Reflection</h2><ul>`;
+      p.reflection.forEach(b => { html += `<li>${b}</li>`; });
+      html += `</ul></div>`;
+    }
+
+    if (p.tags) {
+      html += `<div class="case-block"><h2>Tech Stack</h2><div class="case-tags">`;
+      p.tags.forEach(t => { html += `<span class="tag">${t}</span>`; });
+      html += `</div></div>`;
+    }
+
+    const idxNum = ORDER.indexOf(id);
+    const nextId = ORDER[(idxNum + 1) % ORDER.length];
+    if (nextId && nextId !== id) {
+      const np = PROJECTS[nextId];
+      html += `<a class="case-next" onclick="openCase('${nextId}')">
+        <div class="lbl mono">Next case — ${np.idx}</div>
+        <div class="ttl">${np.title} →</div>
+      </a>`;
+    }
+
+    return html;
+  }
+
+  function renderPaper(id) {
+    const p = PAPERS[id];
+    let html = `<button class="case-back" onclick="closeDetail('publications')">← 전체 논문</button>`;
+    html += `<div class="case-eyebrow mono">${p.venue} · ${p.period}</div>`;
+    html += `<h1 class="case-title-lg">${p.title}</h1>`;
+    html += `<p class="case-desc-lg">${p.authors}</p>`;
+
+    html += `<div class="case-meta-grid">
+      <div><div class="case-meta-label mono">Venue</div><div class="case-meta-val">${p.venue}</div></div>
+      <div><div class="case-meta-label mono">Period</div><div class="case-meta-val">${p.period}</div></div>
+      <div><div class="case-meta-label mono">Authors</div><div class="case-meta-val">${p.authors}</div></div>
+    </div>`;
+
+    html += `<div class="case-block"><h2>Abstract</h2>`;
+    p.abstract.forEach(par => { html += `<p>${par}</p>`; });
+    html += `</div>`;
+
+    html += `<div class="case-block"><h2>Motivation</h2>`;
+    p.motivation.forEach(par => { html += `<p>${par}</p>`; });
+    html += `</div>`;
+
+    html += `<div class="case-block"><h2>Method</h2>`;
+    p.method.forEach(par => { html += `<p>${par}</p>`; });
+    html += `</div>`;
+
+    html += `<div class="case-block"><h2>Result</h2>`;
+    p.result.forEach(par => { html += `<p>${par}</p>`; });
+    html += `</div>`;
+
+    const idxNum = PUB_ORDER.indexOf(id);
+    const nextId = PUB_ORDER[(idxNum + 1) % PUB_ORDER.length];
+    if (nextId && nextId !== id) {
+      const np = PAPERS[nextId];
+      html += `<a class="case-next" onclick="openPaper('${nextId}')">
+        <div class="lbl mono">Next paper</div>
+        <div class="ttl">${np.title} →</div>
+      </a>`;
+    }
+
+    return html;
+  }
+
+  function openDetail(html) {
+    caseView.innerHTML = html;
+    mainView.style.display = 'none';
+    caseView.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }
+
+  function closeDetail(targetId) {
+    caseView.style.display = 'none';
+    mainView.style.display = '';
+    const target = document.getElementById(targetId);
+    if (target) target.scrollIntoView({ behavior: 'auto' });
+  }
+
+  function openCase(id) { openDetail(renderCase(id)); }
+  function openPaper(id) { openDetail(renderPaper(id)); }
+
+  function attachCardEvents() {
+    document.querySelectorAll('.case-card[data-proj]').forEach(el => {
+      el.addEventListener('click', () => openCase(el.dataset.proj));
+      el.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openCase(el.dataset.proj);
+        }
+      });
+    });
+  }
+
+  function attachPubEvents() {
+    document.querySelectorAll('.pub[data-pub]').forEach(el => {
+      el.addEventListener('click', () => openPaper(el.dataset.pub));
+      el.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openPaper(el.dataset.pub);
+        }
+      });
+    });
+  }
+
+  function attachNavEvents() {
+    document.querySelectorAll('.navlinks a[href^="#"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href').slice(1);
+        const target = document.getElementById(targetId);
+        if (caseView.style.display === 'block') {
+          caseView.style.display = 'none';
+          mainView.style.display = '';
+        }
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  }
+  attachNavEvents();
+
+  caseList.innerHTML = ORDER.map(cardHTML).join('');
+  attachCardEvents();
+
+  pubList.innerHTML = PUB_ORDER.map(pubHTML).join('');
+  attachPubEvents();
+
+  const revealEls = document.querySelectorAll('.reveal');
+  revealEls.forEach(el => el.classList.add('pre'));
+
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  revealEls.forEach(el => revealObserver.observe(el));
+
+  const themeToggle = document.getElementById('themeToggle');
+  function applyThemeIcon() {
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    themeToggle.textContent = isLight ? '🌙' : '☀';
+    themeToggle.setAttribute('aria-label', isLight ? '다크 모드로 전환' : '라이트 모드로 전환');
+  }
+  themeToggle.addEventListener('click', () => {
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    document.documentElement.setAttribute('data-theme', isLight ? 'dark' : 'light');
+    applyThemeIcon();
+  });
+  applyThemeIcon();
+</script>
+
+</body>
+</html>
